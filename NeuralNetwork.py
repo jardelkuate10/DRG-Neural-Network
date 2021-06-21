@@ -1,6 +1,7 @@
 import random
 import math
 from sklearn.model_selection import train_test_split
+import pandas as pd
 
 class Neuron:
     def __init__(self, bias):
@@ -132,16 +133,14 @@ class NeuralNet:
         output1 = self.hidden_layers[0].feed_forward(output0)
 
         for h in range(1, self.num_hidden_layers, 2):
-            try:
-                output0 = self.hidden_layers[h].feed_forward(output1)
+            output0 = self.hidden_layers[h].feed_forward(output1)
 
-                output1 = self.hidden_layers[h + 1].feed_forward(output0)
+            if (h + 1) not in range(self.num_hidden_layers):
+                return self.output_layer.feed_forward(output0)
 
-                if (h + 1) not in range(self.num_hidden_layers):
-                    return self.output_layer.feed_forward(output0)
+            output1 = self.hidden_layers[h + 1].feed_forward(output0)
 
-            finally:
-                return self.output_layer.feed_forward(output1)
+        return self.output_layer.feed_forward(output1)
 
     def train(self):
         for tr_in in range(len(self.training_inputs)):
@@ -253,14 +252,12 @@ Layer {h + 2} (Output Layer)
 ########################################################################################################################
 
 # EXAMPLE RUN
-
-#nn = NeuralNet(df, 0.8, 1000, 3, 5)
+#df = pd.read_csv(r'data\pro_iris.csv')
+#nn = NeuralNet(df, 0.8, 100, 8, 5)
 
 #nn.init_weights_from_inputs_to_hidden_layer_neurons()
 #nn.init_weights_from_hidden_layer_neurons_to_hidden_layer_neurons()
 #nn.init_weights_from_hidden_layer_neurons_to_output_layer_neurons()
-
-#test_errors = []
 
 #for i in range(nn.max_iterations):
 #    nn.train()
