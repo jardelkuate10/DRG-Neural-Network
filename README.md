@@ -1,2 +1,2 @@
-# DRG-Neural-Network
- Code for DRG NeuralNet project
+# DRP-Neural-Network
+ Code for DRP NeuralNet project
